@@ -27,7 +27,7 @@ function crearLista(facturas) {
     }
 }
 
-boton_productos.addEventListener("click", async (event) => {
+boton_facturas.addEventListener("click", async (event) => {
     try {
         const url = "http://localhost:8000/facturas"
 
@@ -37,9 +37,9 @@ boton_productos.addEventListener("click", async (event) => {
             throw new Error("Estado: ", respuesta.status)
         }
 
-        const resultado = await respuesta.json()
+        const factura = await respuesta.json()
 
-        console.log(resultado)
+        console.log(factura)
 
     } catch (error) {
         console.error(error)

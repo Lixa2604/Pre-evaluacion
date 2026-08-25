@@ -1,5 +1,4 @@
 from fastapi import FastAPI, HTTPException
-from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import sqlite3
@@ -60,7 +59,7 @@ async def obtener_factura(id: int) -> Factura:
 
     cursor = conexion.cursor()
 
-    cursor.execute("SELECT * FROM facturas WHERE id = ?", (id, ))
+    respuesta = cursor.execute("SELECT * FROM facturas WHERE id = ?", (id,))
 
     data = cursor.fetchone()
 
