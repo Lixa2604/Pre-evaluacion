@@ -35,6 +35,24 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+@app.get("/animales")
+async def obtener_animales():
+    conexion = sqlite3.connect("master.db")
+
+    conexion.row_factory = sqlite3.Row
+    
+    cursor = conexion.cursor()
+
+    cursor.execute("SELECT * FROM animales ORDER BY id")
+
+    data = cursor.fetchall()
+
+    conexion.close()
+
+    return [dict(animal) for animal in data]
+
+
 @app.get("/facturas")
 async def obtener_facturas():
     conexion = sqlite3.connect("master.db")

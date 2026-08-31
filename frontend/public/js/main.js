@@ -1,7 +1,7 @@
 const boton_facturas = document.getElementById("traer-facturas")
 const lista_facturas = document.getElementById("lista-facturas")
 
-const boton_animales = document.getElementById("taer_animales")
+const boton_animales = document.getElementById("traer-animales")
 const resultado = document.getElementById("resultado")
 
 function crearLista(facturas) {
@@ -48,6 +48,53 @@ boton_facturas.addEventListener("click", async (event) => {
             facturas.forEach((factura) => {
                 const fila = document.createElement("tr")
             })
+        }
+
+    } catch (error) {
+        console.error(error)
+    }
+})
+
+boton_animales.addEventListener("click", async (event) => {
+    try {
+        const url = "http://localhost:8000/animales"
+
+        const respuesta = await fetch(url)
+
+        if (!respuesta.ok) {
+            throw new Error("Estado: ", respuesta.status)
+        }
+
+        const animales = await respuesta.json()
+
+        if (animales.length > 0) {
+            resultado.innerText = ""
+
+            animales.forEach((animal) => {
+                const fila = document.createElement("tr")
+
+                const id = document.createElement("td")
+                id.innerText = animal.id
+
+                const nombre = document.createElement("td")
+                nombre.innerText = animal.nombre
+
+                const especie = document.createElement("td")
+                especie.innerText = animal.especie
+
+                const sexo = document.createElement("td")
+                sexo.innerText = animal.sexo
+
+                fila.appendChild(id)
+                fila.appendChild(nombre)
+                fila.appendChild(especie)
+                fila.appendChild(sexo)
+
+                resultado.appendChild(fila)
+
+            })
+        } else {
+            console.log("No hay animales")
         }
 
     } catch (error) {
