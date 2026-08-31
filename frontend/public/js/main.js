@@ -1,6 +1,9 @@
 const boton_facturas = document.getElementById("traer-facturas")
 const lista_facturas = document.getElementById("lista-facturas")
 
+const boton_animales = document.getElementById("taer_animales")
+const resultado = document.getElementById("resultado")
+
 function crearLista(facturas) {
 
     if (facturas.length == 0) {
@@ -39,7 +42,13 @@ boton_facturas.addEventListener("click", async (event) => {
 
         const factura = await respuesta.json()
 
-        console.log(factura)
+        if (facturas.length > 0) {
+            resultado.innerText = ""
+
+            facturas.forEach((factura) => {
+                const fila = document.createElement("tr")
+            })
+        }
 
     } catch (error) {
         console.error(error)
