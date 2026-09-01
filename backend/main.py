@@ -92,6 +92,8 @@ async def obtener_factura(id: int) -> Factura:
 async def agregar_factura(factura: FacturaCreate):
     conexion = sqlite3.connect("master.db")
 
+    conexion.row_factory = sqlite3.Row
+
     cursor = conexion.cursor()
 
     cursor.execute("INSERT INTO facturas (numero_factura, fecha, cliente, total) VALUES (?, ?, ?, ?)", (factura.numero_factura, factura.fecha, factura.cliente, factura.total))
@@ -103,12 +105,21 @@ async def agregar_factura(factura: FacturaCreate):
     return {"mesaje": "Factura creada", "factura": factura}
 
 @app.put("/facturas/{id}")
-async def actualizarFactura(id: int, factura: FacturaUpdate):
+async def actualizarFactura(id: int, nuevo_dato: FacturaUpdate):
     conexion = sqlite3.connect("master.db")
+
+    conexion.row_factory =sqlite3.Row
     
     cursor = conexion.cursor()
 
-    cursor.execute("UPDATE facturas SET numero_factura = ?", (factura.numero_factura, id))
+    respuesta = cursor.execute("SELECT * FROM facturas WHERE id=?", (id,))
+
+    factura = respuesta.fetchone()
+
+    if not factura:
+        raise HTTPException(status_code=404, detail="factura no existe")
+
+    cursor.execute("UPDATE facturas SET numero_factura = ? WHERE id=?", (nuevo_dato.numero_factura, id))
 
     conexion.commit()
 

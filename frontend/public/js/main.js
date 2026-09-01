@@ -4,8 +4,8 @@ const lista_facturas = document.getElementById("lista-facturas")
 const boton_animales = document.getElementById("traer-animales")
 const resultado = document.getElementById("resultado")
 
+//para crear la lista
 function crearLista(facturas) {
-
     if (facturas.length == 0) {
         lista_facturas.innerText = "No hay productos disponibles"
     } else {
@@ -30,32 +30,9 @@ function crearLista(facturas) {
     }
 }
 
-boton_facturas.addEventListener("click", async (event) => {
-    try {
-        const url = "http://localhost:8000/facturas"
-
-        const respuesta = await fetch(url)
-
-        if (!repuesta.ok) {
-            throw new Error("Estado: ", respuesta.status)
-        }
-
-        const factura = await respuesta.json()
-
-        if (facturas.length > 0) {
-            resultado.innerText = ""
-
-            facturas.forEach((factura) => {
-                const fila = document.createElement("tr")
-            })
-        }
-
-    } catch (error) {
-        console.error(error)
-    }
-})
-
+//para mostrar la tabla al usuario por navegador
 boton_animales.addEventListener("click", async (event) => {
+    
     try {
         const url = "http://localhost:8000/animales"
 
